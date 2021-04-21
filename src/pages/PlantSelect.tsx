@@ -153,7 +153,7 @@ export function PlantSelect(){
 						ListFooterComponent ={
 							loadingMore
 							?	<ActivityIndicator color={colors.green} />
-							: <> </>
+							: <></>
 						}
 					/>
 			</View>
