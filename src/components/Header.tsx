@@ -12,6 +12,7 @@ import fonts from '../styles/fonts'
 
 import userImg from '../assets/carine.jpg';
 
+
 export function Header(){
 	return (
 		<View style={styles.container}>
