@@ -21,20 +21,11 @@ import fonts from '../styles/fonts';
 
 import {useRoute} from '@react-navigation/core';
 import { isBefore } from 'date-fns';
+import { format } from 'date-fns/esm';
+import { loadPlant, PlantProps, savePlant } from '../libs/storage';
 
 interface Params{
-	plant: {
-		id: string;
-		name: string;
-		about: string;
-		water_tips: string;
-		photo: string;
-		environments: [string];
-		frequency: {
-			times: number;
-			repeat_every: string;
-		}
-	}
+	plant: PlantProps
 }
 
 export function PlantSave(){
@@ -54,6 +45,23 @@ export function PlantSave(){
 		}
 		if(dateTime)
 			setSelectedDateTime(dateTime)
+	}
+
+	function handleOpenDateTimePickerForAndroid(){
+		setShowDatePicker(oldState => !oldState)
+	}
+
+
+	async function handleSave(){
+
+		try{
+			await savePlant({
+				...plant,
+				dateTimeNotification: selectedDateTime
+			})
+		}catch{
+			Alert.alert(' Não foi possível Salvar 😢')
+		}
 	}
 
 	return(
@@ -94,13 +102,27 @@ export function PlantSave(){
 							mode="time"
 							display= "spinner"
 							onChange={handleChangeTime}
+							style={styles.dateTimer}
 						/>
 				)}
+
+				{
+					Platform.OS === 'android' && (
+						<TouchableOpacity 
+								onPress={handleOpenDateTimePickerForAndroid}
+								style={styles.dateTimePickerButton}
+						> 
+							<Text style={styles.dateTimePickerText}>
+							   {`Mudar ${format(selectedDateTime, 'HH:mm')}`}
+							</Text>				
+						</TouchableOpacity>	
+					)
+				}
 			
 
 				<Button 
 					title="Cadastrar Planta"
-					onPress={() => { }}
+					onPress={handleSave}
 				/>
 
 			</View>
@@ -117,15 +139,15 @@ const styles = StyleSheet.create({
 	plantInfo:{
 		flex:1,
 		paddingHorizontal: 30,
-		paddingVertical: 50,
+		paddingVertical: 40,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: colors.shape
 	},
 	controller:{
 		backgroundColor: colors.white,
-		paddingHorizontal:20,
-		paddingTop: 20,
+		paddingHorizontal: 20,
+		paddingTop: 1,
 		paddingBottom: getBottomSpace() || 20,
 	},
 	plantName:{
@@ -139,17 +161,17 @@ const styles = StyleSheet.create({
 		fontFamily: fonts.text,
 		color: colors.heading,
 		fontSize:17,
-		marginTop: 10,
+		marginTop: 8,
 	},
 	tipContainer:{
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: colors.blue_light,
-		padding: 20,
+		padding: 15,
 		borderRadius: 20,
 		position: 'relative',
-		bottom: 60
+		bottom: 25
 	},
 	tipImage:{
 		width: 56,
@@ -159,7 +181,7 @@ const styles = StyleSheet.create({
 		flex:1,
 		marginLeft: 20,
 		fontFamily: fonts.text,
-		fontSize: 17,
+		fontSize: 14,
 		color: colors.blue,
 		textAlign: 'justify',
 	},
@@ -168,6 +190,22 @@ const styles = StyleSheet.create({
 		fontFamily: fonts.complement,
 		color: colors.heading,
 		fontSize: 12,
-		marginBottom: 5,
+		marginBottom: 3,
+	},
+	dateTimePickerText:{
+		color: colors.heading,
+		fontSize: 23,
+		fontFamily: fonts.text,
+	},
+	dateTimePickerButton:{
+		width: '100%',
+		alignItems: 'center',
+		paddingVertical: 40
+	},
+	dateTimer:{
+		height:110,
+		padding:10,
+		marginBottom:10,
+		marginTop: 10
 	}
 })
