@@ -1,6 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import colors from '../styles/colors'
+import {Platform} from 'react-native'
 import {PlantSelect} from '../pages/PlantSelect'
 import {MaterialIcons} from '@expo/vector-icons'
 import { MyPlants } from '../pages/MyPlants';
@@ -15,7 +16,7 @@ const AuthRoutes = () => {
 				inactiveTintColor: colors.heading,
 				labelPosition: 'beside-icon',
 				style: {
-					paddingVertical: 2,
+					paddingVertical: Platform.OS === 'ios' ? 2 : 0,
 					height: 70
 				},
 			}}>
