@@ -1,3 +1,4 @@
+[![expo](https://img.shields.io/npm/v/expo.svg?label=Expo)](https://docs.expo.io/)
 [![NPM](https://img.shields.io/npm/l/react-native-template-rocketseat-basic.svg)](https://choosealicense.com/licenses/mit)
 
 
