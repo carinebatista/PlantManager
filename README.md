@@ -15,7 +15,7 @@
 </p>
 <br>
 <p align="center">
-  <img heigth="250px" width="250"  src="./github/PlantManager.gif" alt="animated" />
+  <img heigth="200px" width="200"  src="./github/PlantManager.gif" alt="animated" />
 </p>
 
 *This project was developed in The Next Level Week Event 5th edition, hosted by Rocketseat*
